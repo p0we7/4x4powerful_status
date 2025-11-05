@@ -46,7 +46,7 @@ const workerConfig: WorkerConfig = {
       // [OPTIONAL] body to be sent
       // body: 'Hello, world!',
       // [OPTIONAL] if specified, the response must contains the keyword to be considered as operational.
-      responseKeyword: '4x4powerful',
+      responseKeyword: '广东华钿勇士汽车用品有限公司',
       // [OPTIONAL] if specified, the response must NOT contains the keyword to be considered as operational.
       // responseForbiddenKeyword: 'bad gateway',
       // [OPTIONAL] if specified, will call the check proxy to check the monitor, mainly for geo-specific checks

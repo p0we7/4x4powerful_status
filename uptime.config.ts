@@ -52,18 +52,35 @@ const workerConfig: WorkerConfig = {
       // [OPTIONAL] if specified, will call the check proxy to check the monitor, mainly for geo-specific checks
       // refer to docs https://github.com/lyc8503/UptimeFlare/wiki/Check-proxy-setup before setting this value
       // currently supports `worker://` and `http(s)://` proxies
-      checkProxy: 'worker://apac',
+      checkProxy: 'globalping://nanydju2nz53md32mbacegkkan4edfwf/?magic=Eastern%20Asia'
       // [OPTIONAL] if true, the check will fallback to local if the specified proxy is down
-      checkProxyFallback: true,
+      // checkProxyFallback: true,
     },
   ],
+  // [Optional] Notification settings
   notification: {
-    // [Optional] apprise API server URL
-    // if not specified, no notification will be sent
-    appriseApiServer: 'https://apprise.gbpshk.com/notify',
-    // [Optional] recipient URL for apprise, refer to https://github.com/caronc/apprise
-    // if not specified, no notification will be sent
-    recipientUrl: 'tgram://8113825913:AAEOJbi4ifadlGJ7URG5DXRIiSUBSOvJ4kQ/133664291',
+    // [Optional] Notification webhook settings, if not specified, no notification will be sent
+    // More info at Wiki: https://github.com/lyc8503/UptimeFlare/wiki/Setup-notification
+    webhook: {
+      // [Required] webhook URL (example: Telegram Bot API)
+      url: 'https://api.telegram.org/bot8113825913:AAEOJbi4ifadlGJ7URG5DXRIiSUBSOvJ4kQ/sendMessage',
+      // [Optional] HTTP method, default to 'GET' for payloadType=param, 'POST' otherwise
+      method: 'POST',
+      // [Required] Specify how to encode the payload
+      // Should be one of 'param', 'json' or 'x-www-form-urlencoded'
+      // 'param': append url-encoded payload to URL search parameters
+      // 'json': POST json payload as body, set content-type header to 'application/json'
+      // 'x-www-form-urlencoded': POST url-encoded payload as body, set content-type header to 'x-www-form-urlencoded'
+      payloadType: 'x-www-form-urlencoded',
+      // [Required] payload to be sent
+      // $MSG will be replaced with the human-readable notification message
+      payload: {
+        chat_id: 133664291,
+        text: '$MSG',
+      },
+      // [Optional] timeout calling this webhook, in millisecond, default to 5000
+      timeout: 10000,
+    },
     // [Optional] timezone used in notification messages, default to "Etc/GMT"
     timeZone: 'Asia/Shanghai',
     // [Optional] grace period in minutes before sending a notification
@@ -72,6 +89,8 @@ const workerConfig: WorkerConfig = {
     gracePeriod: 5,
     // [Optional] disable notification for monitors with specified ids
     skipNotificationIds: ['foo_monitor', 'bar_monitor'],
+    // [Optional] suppress extra notifications for error reason changes during an incident, default to false
+    skipErrorChangeNotification: true,
   },
   callbacks: {
     onStatusChange: async (
@@ -83,7 +102,7 @@ const workerConfig: WorkerConfig = {
       reason: string
     ) => {
       // This callback will be called when there's a status change for any monitor
-      // Write any Typescript code here
+      // Write any TypeScript code here
       // This will not follow the grace period settings and will be called immediately when the status changes
       // You need to handle the grace period manually if you want to implement it
     },
@@ -95,7 +114,7 @@ const workerConfig: WorkerConfig = {
       reason: string
     ) => {
       // This callback will be called EVERY 1 MINTUE if there's an on-going incident for any monitor
-      // Write any Typescript code here
+      // Write any TypeScript code here
     },
   },
 }
@@ -124,4 +143,4 @@ const maintenances: MaintenanceConfig[] = [
 ]
 
 // Don't forget this, otherwise compilation fails.
-export { pageConfig, workerConfig, maintenances }
+export { maintenances, pageConfig, workerConfig }

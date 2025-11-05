@@ -21,6 +21,7 @@ A more advanced, serverless, and free uptime monitoring & status page solution, 
   - Customizable Webhook
 - Status page
   - Interactive ping (response time) chart for all types of monitors
+  - Scheduled maintenances alerts & Incident history page
   - Responsive UI that adapts to your system theme
   - Customizable status page
   - Use your own domain with CNAME
@@ -38,6 +39,10 @@ Some screenshots:
 ## ⚡Quickstart / 📄Documentation
 
 Please refer to [Wiki](https://github.com/lyc8503/UptimeFlare/wiki)
+
+## 🚀Upgrade existing deployments
+
+Get the latest features right away with [simple upgrade process](https://github.com/lyc8503/UptimeFlare/wiki/Synchronize-updates-from-upstream)
 
 ## New features (TODOs)
 
@@ -57,7 +62,14 @@ Please refer to [Wiki](https://github.com/lyc8503/UptimeFlare/wiki)
 - [x] Remove old incidents
 - [x] ~~Known issue~~: `fetch` doesn't support non-standard port (resolved after CF update)
 - [x] Compatibility date update
-- [x] Scheduled Maintenance 
+- [x] Scheduled Maintenance
 - [ ] Update wiki/README and add docs for dev
 - [ ] Migration to Terraform Cloudflare provider version 5.x
 - [ ] Cloudflare D1 database
+- [x] Scheduled maintenances (via IIFE)
+- [ ] Simpler config example
+- [x] Upcoming maintenances
+- [x] Universal Webhook upgrade
+- [ ] i18n...? (maybe)
+- [ ] ICMP via proxy?
+- [ ] Add default UA

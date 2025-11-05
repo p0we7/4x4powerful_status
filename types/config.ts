@@ -1,7 +1,13 @@
+import type { Env } from '../worker/src'
+
 export type PageConfig = {
   title?: string
   links?: PageConfigLink[]
   group?: PageConfigGroup
+  favicon?: string
+  maintenances?: {
+    upcomingColor?: string
+  }
 }
 
 export type MaintenanceConfig = {
@@ -39,38 +45,49 @@ export type MonitorTarget = {
   checkProxyFallback?: boolean
 }
 
-export type WorkerConfig = {
+export type WorkerConfig<TEnv = Env> = {
   kvWriteCooldownMinutes: number
   passwordProtection?: string
   monitors: MonitorTarget[]
   notification?: Notification
-  callbacks?: Callbacks
+  callbacks?: Callbacks<TEnv>
 }
 
 export type Notification = {
-  appriseApiServer?: string
-  recipientUrl?: string
+  webhook?: WebhookConfig
   timeZone?: string
   gracePeriod?: number
   skipNotificationIds?: string[]
+  skipErrorChangeNotification?: boolean
 }
 
-export type Callbacks = {
-  onStatusChange: (
-    env: any,
-    monitor: any,
+type SingleWebhook = {
+  url: string
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH'
+  headers?: { [key: string]: string | number }
+  payloadType: 'param' | 'json' | 'x-www-form-urlencoded'
+  payload: any
+  timeout?: number
+}
+
+export type WebhookConfig = SingleWebhook | SingleWebhook[]
+
+export type Callbacks<TEnv = Env> = {
+  onStatusChange?: (
+    env: TEnv,
+    monitor: MonitorTarget,
     isUp: boolean,
     timeIncidentStart: number,
     timeNow: number,
     reason: string
-  ) => Promise<any>
-  onIncident: (
-    env: any,
-    monitor: any,
+  ) => Promise<any> | any
+  onIncident?: (
+    env: TEnv,
+    monitor: MonitorTarget,
     timeIncidentStart: number,
     timeNow: number,
     reason: string
-  ) => Promise<any>
+  ) => Promise<any> | any
 }
 
 export type MonitorState = {
